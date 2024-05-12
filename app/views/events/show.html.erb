@@ -1,0 +1,32 @@
+<h2>Details of the Event</h2>
+
+<h3><%= @event.name %></h3>
+
+<p><strong>Date:</strong> <%= @event.date %></p>
+
+<% if @event.attendees.any? %>
+  <h3>Attendees:</h3>
+  <ul>
+    <% @event.attendees.each do |attendee| %>
+      <li><%= attendee.email %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No attendees yet.</p>
+<% end %>
+
+<% if current_user == @event.creator %>
+  <h3>Invitations:</h3>
+  <% @event.invitees.each do |invitee| %>
+    <p><%= invitee.email %></p>
+  <% end %>
+<% elsif @event.private? %>
+  <p>This event is private.</p>
+<% end %>
+
+<% if current_user.attendances.exists?(event_id: @event.id) %>
+  <%= link_to "Remove me from attendees", remove_attendee_attendance_path(@event), method: :delete, data: { confirm: "Are you sure?" } %>
+<% end %>
+
+<%= link_to 'Edit', edit_event_path(@event) %> |
+<%= link_to 'Back', events_path %>

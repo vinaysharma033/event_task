@@ -1,0 +1,23 @@
+<h2>List of user's Attended Events</h2>
+<% if @attended_events.any? %>
+  <% @attended_events.each do |event| %>
+    <h2><%= event.name %></h2>
+
+    <% if event.attendees.any? %>
+      <h3>Attendees:</h3>
+      <ul>
+        <% event.attendees.each do |attendee| %>
+          <li><%= attendee.email %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No attendees found for this event.</p>
+    <% end %>
+
+    <%= link_to 'Edit', edit_event_path(event) %> |
+  <% end %>
+<% else %>
+  <p>No events found.</p>
+<% end %>
+
+<%= link_to 'Back', root_path %>

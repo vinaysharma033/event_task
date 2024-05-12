@@ -1,0 +1,29 @@
+<nav>
+  <%= link_to "Home", root_path %> |
+  <%= link_to 'All Events', events_path %> | 
+  <%= link_to "User's Event ", user_show_path(current_user) %> | 
+  <%= link_to 'New Event', new_user_event_path(current_user) %>
+</nav>
+
+<h3>Past Events</h3>
+<ul>
+  <% @events.past.each do |event| %>
+    <li><%= event.name %> - <%= event.date %></li>
+  <% end %>
+</ul>
+
+<h3>Upcoming Events</h3>
+<ul>
+  <% @events.upcoming.each do |event| %>
+    <li><%= event.name %> - <%= event.date %></li>
+  <% end %>
+</ul>
+
+<div id="user_nav">
+  <% if user_signed_in? %>
+      Signed in as <%= current_user.email %>. 
+      <%= link_to 'Sign out', destroy_user_session_path, data: { turbo_method: :delete } %>
+  <% else %>
+      <%= link_to 'Register', new_user_registration_path %> or <%= link_to 'Sign in', new_user_session_path %>
+  <% end %>
+</div>
